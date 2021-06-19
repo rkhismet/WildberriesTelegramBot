@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Service
 @NoArgsConstructor
-public class ItemReplyService implements Reply {
+public class ItemAddReplyService implements Reply {
     @Autowired
     CommonMessagesService commonMessagesService;
     @Autowired

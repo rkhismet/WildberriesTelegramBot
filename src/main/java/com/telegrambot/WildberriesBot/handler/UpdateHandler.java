@@ -32,11 +32,12 @@ public class UpdateHandler {
     public SendMessage handler(Message message) {
         User user = message.getFrom();
         String text = message.getText();
+        System.out.println(text);
         BotState botState = switch (text) {
-            case "/help", "❓Help" -> BotState.SHOW_HELP_MENU;
-            case "/add_item", "\uD83D\uDED2Добавьте товар" -> BotState.SUBSCRIPTION_START;
-            case "/delete_item", "\uD83D\uDDD1Удалите товар" -> BotState.UNSUBSCRIPTION_START;
-            case "/list_items", "\uD83D\uDCDCShow Profile List" -> BotState.SHOW_CART_LIST;
+            case "/help", "❓Помощь" -> BotState.SHOW_HELP_MENU;
+            case "/add_item", "\uD83D\uDED2Добавить товар" -> BotState.SUBSCRIPTION_START;
+            case "/delete_item", "\uD83D\uDDD1Удалить товар" -> BotState.UNSUBSCRIPTION_START;
+            case "/list_items", "\uD83D\uDCDCПоказать все товары" -> BotState.SHOW_CART_LIST;
             default -> userCache.getCurrentBotState(user.getId());
         };
         userCache.setUserBotState(user.getId(), botState);

@@ -16,11 +16,13 @@ public class ItemSubscription {
     @GeneratedValue
     long id;
 
+    long chatId;
     long itemId;
     String name;
     long price;
 
-    public ItemSubscription(long itemId, String name, int price) {
+    public ItemSubscription(long chatId, long itemId, String name, long price) {
+        this.chatId = chatId;
         this.itemId = itemId;
         this.name = name;
         this.price = price;
