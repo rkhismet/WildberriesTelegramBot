@@ -19,12 +19,12 @@ public class WildberriesBotApplication {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public static void main(String[] args) {
-		ApiContextInitializer.init();
+		//ApiContextInitializer.init();
 		//TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class, WildberriesTelegramBot);
 		SpringApplication.run(WildberriesBotApplication.class, args);
 	}
-	/*@Bean
+	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		return builder.build();
-	}*/
+	}
 }
