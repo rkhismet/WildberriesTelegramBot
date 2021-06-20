@@ -41,7 +41,7 @@ public class MainMenuKeyboardService {
     public SendMessage createMessageKeyboard(long chatId, String message, ReplyKeyboardMarkup replyKeyboardMarkup) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
-        sendMessage.setChatId(chatId);
+        sendMessage.setChatId(String.valueOf(chatId));
         sendMessage.setText(message);
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         return sendMessage;
