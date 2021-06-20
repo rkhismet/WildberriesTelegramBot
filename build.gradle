@@ -21,6 +21,12 @@ repositories {
 	mavenCentral()
 	maven { url 'https://repo.spring.io/milestone' }
 }
+apply plugin: 'java'
+jar {
+	manifest {
+		attributes 'Main-Class': 'com.telegrambot.WildberriesBot.WildberriesBotApplication'
+	}
+}
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
