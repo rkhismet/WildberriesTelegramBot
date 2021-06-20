@@ -43,13 +43,20 @@ public class ItemShowReplyService implements Reply {
         StringBuilder stringBuilder = new StringBuilder();
         itemList.forEach(item -> {
             String itemId = "[" + item.getItemId() + "]" + "(https://kz.wildberries.ru/catalog/" + item.getItemId() + "/detail.aspx)";
-            String price = "(" + item.getPrice() + "рублей)";
+            String price = item.getPrice() + " ₽";
             String name = item.getName();
-            String line = name + " " + price + " " + itemId;
+            long currentPrice = retrievingService.retrieveItemByItemId(item.getItemId()).getPrice();
+            String curPrice = "Текущая цена: ";
+            if (currentPrice != (long) 1e18) {
+                curPrice = curPrice + currentPrice + " ₽";
+            } else {
+                curPrice = curPrice + "Нет на складе";
+            }
+            String line = "Товар: " + name + "\n" + "Желаемая цена: " + price + "\n" + curPrice + "\nАртикул: " + itemId;
             stringBuilder.append(line).append("\n\n");
         });
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        return messageService.sendMessage(chatId, "reply.list.profiles", stringBuilder.toString());
+        return messageService.sendMessage(chatId, "reply.list.items", stringBuilder.toString());
     }
     @Override
     public BotState getReplyName() {

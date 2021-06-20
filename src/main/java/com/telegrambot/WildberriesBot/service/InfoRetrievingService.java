@@ -17,20 +17,23 @@ public class InfoRetrievingService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public ItemSubscription retrieveItemByItemId(long itemId) {
-        ItemSubscription itemSubscription = null;
+        ItemSubscription itemSubscription = new ItemSubscription();
         try {
             Document doc = Jsoup.connect(wildberriesUrl + itemId + "/detail.aspx").get();
-            String itemPrice = doc.getElementsByClass("final-cost").text();
+            String itemPrice = doc.getElementsByClass("final-price-block").text();
             StringBuilder sb = new StringBuilder();
             itemPrice.chars().mapToObj(i -> (char) i).filter(Character::isDigit).forEach(sb::append);
             itemPrice = sb.toString();
+            System.out.println("baghasy:        " + itemPrice);
             String itemName = doc.getElementsByClass("brand-and-name j-product-title").text();
+            System.out.println("aty:        " + itemName);
             itemSubscription.setItemId(itemId);
             itemSubscription.setName(itemName);
+            System.out.println("isteldi");
             if (sb.length() == 0) {
                 itemSubscription.setPrice((long) 1e18);
             } else {
-                itemSubscription.setPrice(Integer.parseInt(itemPrice));
+                itemSubscription.setPrice(Long.parseLong(itemPrice));
             }
 
         } catch (HttpClientErrorException.TooManyRequests e) {

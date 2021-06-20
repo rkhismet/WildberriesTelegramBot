@@ -1,5 +1,6 @@
 package com.telegrambot.WildberriesBot.service.reply;
 
+
 import com.telegrambot.WildberriesBot.cache.UserCache;
 import com.telegrambot.WildberriesBot.model.ItemSubscription;
 import com.telegrambot.WildberriesBot.reply.Reply;
@@ -17,8 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import java.util.Optional;
 
 @Service
-public class ItemAddNameReplyService implements Reply {
-
+public class ItemAddPriceReplyService implements Reply {
     @Autowired
     ItemSubscriptionRepositoryService subscriptionService;
     @Autowired
@@ -35,12 +35,12 @@ public class ItemAddNameReplyService implements Reply {
         try {
             long a = Integer.parseInt(message.getText());
         } catch (RuntimeException e) {
-            return messageService.sendWarningMessage(chatId, "reply.item.action.add.badRequest");
+            return messageService.sendWarningMessage(chatId, "reply.item.action.add.price.badRequest");
         }
-        long itemId = Integer.parseInt(message.getText());
-        Optional<ItemSubscription> itemSubscriptionOptional = subscriptionService.findByChatIdAndItemId(chatId, itemId);
-        if (itemSubscriptionOptional.isPresent()) {
-            subscriptionService.deleteItemSubscription(itemSubscriptionOptional.get());
+        long price = Integer.parseInt(message.getText());
+        long itemId = userCache.getCurrentItem(userId);
+        if (itemId == 0) {
+            return messageService.sendMessage(chatId, "reply.item.action.add.price.unknownError");
         }
         ItemSubscription itemSubscription;
         try {
@@ -50,14 +50,21 @@ public class ItemAddNameReplyService implements Reply {
         } catch (RuntimeException e) {
             return messageService.sendMessage(chatId, "reply.item.action.add.serverError", Emojis.FAIL_SERVER_MARK);
         }
-        subscriptionService.saveItemSubscription(new ItemSubscription(chatId, itemId, itemSubscription.getName(), 0));
-        userCache.setUserBotState(userId, BotState.PRICE_PROCESS);
-        return messageService.sendMessage(message.getChatId(), "reply.item.action.add.id.success");
+        Optional<ItemSubscription> itemSubscriptionOptional = subscriptionService.findByChatIdAndItemId(chatId, itemId);
+        if (itemSubscriptionOptional.isPresent()) {
+            subscriptionService.deleteItemSubscription(itemSubscriptionOptional.get());
+        }
+        String name = itemSubscription.getName();
+        System.out.println(chatId + " " + itemId + " " + name + " " + price);
+        subscriptionService.saveItemSubscription(new ItemSubscription(chatId, itemId, name, price));
+        userCache.setUserBotState(userId, BotState.NULL_STATE);
+        userCache.setUserLastItem(userId, 0L);
+        return messageService.sendSuccessMessage(message.getChatId(), "reply.item.action.add.price.success");
+
     }
 
     @Override
     public BotState getReplyName() {
-        return BotState.SUBSCRIPTION_PROCESS;
+        return BotState.PRICE_PROCESS;
     }
-
 }
