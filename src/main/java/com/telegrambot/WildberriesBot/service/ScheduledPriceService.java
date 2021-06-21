@@ -38,8 +38,9 @@ public class ScheduledPriceService {
         String itemName = itemSubscription.getName();
         try {
             ItemSubscription subscription = infoRetrievingService.retrieveItemByItemId(itemId);
-            if (subscription == null) return;
+            //System.out.println("cheap price" + price + " " + subscription.getPrice());
             if (price < subscription.getPrice()) return;
+            System.out.println("cheap price" + price + " " + subscription.getPrice());
             telegramBot.executeSendMessage(commonMessages.sendMessage(chatId, "reply.scheduled.notification.cheapPrice", Emojis.ATTENTION, "[" + itemId + "]" + "(https://kz.wildberries.ru/catalog/" + itemId + "/detail.aspx)", subscription.getPrice()));
 
         } catch (RuntimeException e) {
