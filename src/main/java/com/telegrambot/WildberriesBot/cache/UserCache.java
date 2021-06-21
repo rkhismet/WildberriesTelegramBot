@@ -9,21 +9,21 @@ import java.util.Map;
 @Service
 public class UserCache {
 
-    private Map<Integer, BotState> UserBotState = new HashMap<>();
-    private Map<Integer, Long> UserLastItem = new HashMap<>();
+    private Map<Long, BotState> UserBotState = new HashMap<>();
+    private Map<Long, Long> UserLastItem = new HashMap<>();
 
-    public void setUserBotState(int userId, BotState botState) {
+    public void setUserBotState(Long userId, BotState botState) {
         UserBotState.put(userId, botState);
     }
 
-    public void setUserLastItem(int userId, Long itemId) { UserLastItem.put(userId, itemId); }
+    public void setUserLastItem(Long userId, Long itemId) { UserLastItem.put(userId, itemId); }
 
-    public BotState getCurrentBotState(int userId) {
+    public BotState getCurrentBotState(Long userId) {
         BotState botState = UserBotState.computeIfAbsent(userId, k -> BotState.NULL_STATE);
         return botState;
     }
 
-    public Long getCurrentItem(int userId) {
+    public Long getCurrentItem(Long userId) {
         Long itemId = UserLastItem.computeIfAbsent(userId, k -> Long.valueOf(0));
         return itemId;
     }

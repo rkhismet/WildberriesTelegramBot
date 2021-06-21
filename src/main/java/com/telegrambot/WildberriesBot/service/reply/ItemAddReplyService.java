@@ -20,7 +20,7 @@ public class ItemAddReplyService implements Reply {
     UserCache userCache;
     @Override
     public SendMessage sendMessage(Message message) {
-        int userId = message.getFrom().getId();
+        long userId = message.getFrom().getId();
         ItemState userState = getUserState(userCache.getCurrentBotState(userId));
         userCache.setUserBotState(message.getFrom().getId(), (userState.equals(ItemState.SUBSCRIBE) ? BotState.SUBSCRIPTION_PROCESS : BotState.UNSUBSCRIPTION_PROCESS));
         String action = (userState.equals(ItemState.SUBSCRIBE) ? "добавить" : "убрать");

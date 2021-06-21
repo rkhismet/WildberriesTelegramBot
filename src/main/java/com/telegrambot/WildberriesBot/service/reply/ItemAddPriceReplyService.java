@@ -31,7 +31,7 @@ public class ItemAddPriceReplyService implements Reply {
     @Override
     public SendMessage sendMessage(Message message) {
         long chatId = message.getChatId();
-        int userId = message.getFrom().getId();
+        long userId = message.getFrom().getId();
         try {
             long a = Integer.parseInt(message.getText());
         } catch (RuntimeException e) {

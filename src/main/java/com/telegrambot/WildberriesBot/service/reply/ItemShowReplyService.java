@@ -34,7 +34,7 @@ public class ItemShowReplyService implements Reply {
     @Override
     public SendMessage sendMessage(Message message) {
         long chatId = message.getChatId();
-        int userId = message.getFrom().getId();
+        long userId = message.getFrom().getId();
         List<ItemSubscription> itemList = subscriptionService.findByChatId(chatId);
         userCache.setUserBotState(userId, BotState.NULL_STATE);
         if (itemList.size() == 0) {
