@@ -50,7 +50,7 @@ public class ItemAddIdReplyService implements Reply {
         }
         userCache.setUserBotState(userId, BotState.PRICE_PROCESS);
         userCache.setUserLastItem(userId, itemId);
-        if (itemSubscription.getPrice() != 0L) {
+        if (itemSubscription.getPrice() != (long) 1e18) {
             return messageService.sendMessage(message.getChatId(), "reply.item.action.add.id.success.priceY", Emojis.SUCCESS_MARK, itemSubscription.getPrice());
         }
         return messageService.sendSuccessMessage(message.getChatId(), "reply.item.action.add.id.success.priceN");
