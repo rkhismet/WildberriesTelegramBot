@@ -23,8 +23,8 @@ public class WildberriesBotApplication {
 		//TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class, WildberriesTelegramBot);
 		SpringApplication.run(WildberriesBotApplication.class, args);
 	}
-	@Bean
+	/*@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		return builder.build();
-	}
+	}*/
 }
